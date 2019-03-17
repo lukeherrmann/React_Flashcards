@@ -1,47 +1,25 @@
-import React, { Component } from 'react';
-import { Header, Container, } from "semantic-ui-react";
-import Cards from "./Cards";
-import CardForm from "./CardForm";
+import React, { Fragment, } from 'react';
+import { Route, Switch, } from "react-router-dom";
+import Home from "./components/Home";
+import About from "./components/About";
+import NoMatch from "./components/NoMatch";
+import NavBar from "./components/NavBar";
+import Main from "./components/Main";
+import { Container, } from 'semantic-ui-react';
 
-class App extends Component {
-  state = {
-    flashcards: [
-      {id: 1, title: "1 + 1 =", answer: "2"},
-      {id: 2, title: "2 + 2 =", answer: "4"},
-      {id: 3, title: "3 + 3 =", answer: "6"},
-    ],
-  }
 
-  getId = () => {
-    return Math.floor((1 + Math.random()) * 10000);
-  };
-
-  addCard = (cardData) => {
-    let flashcard = { id: this.getId(), ...cardData, }
-    this.setState({ flashcards: [...this.state.flashcards, flashcard] })
-  }
-
-  removeCard = (id) => {
-    const flashcards = this.state.flashcards.filter( flashcard => {
-      if (flashcard.id !== id)
-       return flashcard
-    })
-    this.setState({ flashcards: [...flashcards]})
-  }    
-  
-
-  render() {
-    return (
-      <Container textAlign="center">
-        <Header as="h1" style={{ paddingTop: "25px" }}>Flashcards React</Header>
-        <hr />
-        <CardForm add={this.addCard} />
-        <br />
-        <hr />
-        <Cards flashcards={this.state.flashcards} remove={this.removeCard} toggle={this.toggleAnswer} />
-      </Container>
-    );
-  }
-}
+const App = () => (
+  <Fragment>
+    <NavBar />
+    <Container>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/main" component={Main} />
+        <Route component={NoMatch} />
+      </Switch>
+    </Container>
+  </Fragment>
+)
 
 export default App;
